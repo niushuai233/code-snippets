@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql:
+    hostname: mysql
+    image: mysql:8.0.28
+    # 如果需要容器使用宿主机IP(内网IP)，则可以配置此项
+    # network_mode: "host"
+    # 指定容器名称，如果不设置此参数，则由系统自动生成
+    container_name: mysql
+    # 设置容器自启模式
+    restart: always
+    # 设置utf8字符集
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+        # 设置容器时区与宿主机保持一致
+        - TZ=Asia/Shanghai
+        # 设置root密码
+        - MYSQL_ROOT_PASSWORD=root
+    volumes:
+        # 设置容器时区与宿主机保持一致
+        - /etc/localtime:/etc/localtime:ro
+        # 映射数据库保存目录到宿主机，防止数据丢失
+        - ./mysql/data:/var/lib/mysql/data
+        # 映射数据库配置文件
+        - ./mysql/my.cnf:/etc/mysql/my.cnf
+    ports:
+        - "3306:3306"
+    privileged: true
