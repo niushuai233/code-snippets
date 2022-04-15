@@ -1,12 +1,12 @@
 version: '3'
 services:
   mysql:
-    hostname: mysql
+    hostname: mysql8
     image: mysql:8.0.28
     # 如果需要容器使用宿主机IP(内网IP)，则可以配置此项
     # network_mode: "host"
     # 指定容器名称，如果不设置此参数，则由系统自动生成
-    container_name: mysql
+    container_name: mysql8
     # 设置容器自启模式
     restart: always
     # 设置utf8字符集
@@ -18,11 +18,11 @@ services:
         - MYSQL_ROOT_PASSWORD=root
     volumes:
         # 设置容器时区与宿主机保持一致
-        - /etc/localtime:/etc/localtime:ro
+        - "/etc/localtime:/etc/localtime:ro"
         # 映射数据库保存目录到宿主机，防止数据丢失
-        - ./mysql/data:/var/lib/mysql/data
+        - "/opt/docker-compose/mysql/data:/var/lib/mysql"
         # 映射数据库配置文件
-        - ./mysql/my.cnf:/etc/mysql/my.cnf
+        - "/opt/docker-compose/mysql/data/conf.d:/etc/mysql/conf.d"
     ports:
-        - "3306:3306"
-    privileged: true
+        - "60001:3306"
+    #privileged: true
