@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mysql:
+    hostname: redis
+    image: redis
+    # 如果需要容器使用宿主机IP(内网IP)，则可以配置此项
+    # network_mode: "host"
+    # 指定容器名称，如果不设置此参数，则由系统自动生成
+    container_name: redis
+    # 设置容器自启模式
+    restart: always
+    # 设置utf8字符集
+    command: redis-server --bind 0.0.0.0 --requirepass redis@niushuai233.
+    environment:
+        # 设置容器时区与宿主机保持一致
+        - TZ=Asia/Shanghai
+    volumes:
+        # 设置容器时区与宿主机保持一致
+        - "/etc/localtime:/etc/localtime:ro"
+    ports:
+        - "60002:3306"
+    privileged: true
